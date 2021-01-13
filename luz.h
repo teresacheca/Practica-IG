@@ -27,6 +27,7 @@ class Luz
 
    public:
       void activar();
+      void desactivar();
 
       void setPosicion(Tupla4f p);
       void setColorAmbiente(Tupla4f cA);

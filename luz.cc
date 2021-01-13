@@ -22,6 +22,10 @@ void Luz::activar(){
 
 }
 
+void Luz::desactivar(){
+    glDisable(id);
+}
+
 
 void Luz::setPosicion(Tupla4f p){
     posicion = p;

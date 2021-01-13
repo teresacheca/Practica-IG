@@ -29,7 +29,7 @@ LuzPosicional::LuzPosicional(const Tupla3f & posicion){
 }
 
 void LuzPosicional::mover(Tupla3f p){
-    
+    this->desactivar();
     Tupla4f pos;
     pos[0]=p[0];
     pos[1]=p[1];
@@ -37,7 +37,8 @@ void LuzPosicional::mover(Tupla3f p){
     pos[3]=1.0;
 
     setPosicion(pos);
-    cout << "Posicion " << pos << endl;
+    
+    this->activar();
     
 }
 

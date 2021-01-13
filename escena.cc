@@ -51,8 +51,6 @@ Escena::Escena()
    cubo->setTextura(textura);
    tetraedro->setTextura(textura);
  
-   
-
 
    tapas=true;
 
@@ -121,6 +119,7 @@ void Escena::inicializar( int UI_window_width, int UI_window_height )
 	glViewport( 0, 0, UI_window_width, UI_window_height );
 }
 
+
 void Escena::inicializaLuces(){
    const Tupla4f ambiente = {1.0,0.0,0.0,1.0}; 
    const Tupla4f especular = {1.0,1.0,0.0,1.0}; 
@@ -131,34 +130,38 @@ void Escena::inicializaLuces(){
    luz0 = new LuzDireccional(direccion, GL_LIGHT0, ambiente, especular, difuso);
 
    posicion = {200,200,200}; 
-   luz1 = new LuzPosicional(posicion, GL_LIGHT1, ambiente, especular, difuso);
+   lucesPosicionales.push_back(new LuzPosicional(posicion, GL_LIGHT1, ambiente, especular, difuso));
 
    posicion = {500,500,-300};
-   luz2 = new LuzPosicional(posicion, GL_LIGHT2, ambiente, especular, difuso);
+   lucesPosicionales.push_back(new LuzPosicional(posicion, GL_LIGHT2, ambiente, especular, difuso));
 
+   
    posicion = {300,-400,300};
-   luz3 = new LuzPosicional(posicion, GL_LIGHT3, ambiente, especular, difuso);
+   lucesPosicionales.push_back(new LuzPosicional(posicion, GL_LIGHT3, ambiente, especular, difuso));
 
-   posicion = {-300,300,300};
-   luz4 = new LuzPosicional(posicion, GL_LIGHT4, ambiente, especular, difuso);
-
-   posicion = {200,-400,-500};
-   luz5 = new LuzPosicional(posicion, GL_LIGHT5, ambiente, especular, difuso);
-
-   posicion = {-500,-500,500};
-   luz6 = new LuzPosicional(posicion, GL_LIGHT6, ambiente, especular, difuso);
-
-   posicion = {-500,500,-500};
-   luz7 = new LuzPosicional(posicion, GL_LIGHT7, ambiente, especular, difuso);
   
+   posicion = {-300,300,300};
+   lucesPosicionales.push_back(new LuzPosicional(posicion, GL_LIGHT4, ambiente, especular, difuso));
+
+  
+   posicion = {200,-400,-500};
+   lucesPosicionales.push_back(new LuzPosicional(posicion, GL_LIGHT5, ambiente, especular, difuso));
+
+   
+   posicion = {-500,-500,500};
+   lucesPosicionales.push_back(new LuzPosicional(posicion, GL_LIGHT6, ambiente, especular, difuso));
+
+   
+   posicion = {-500,500,-500};
+   lucesPosicionales.push_back(new LuzPosicional(posicion, GL_LIGHT7, ambiente, especular, difuso));
+
    l0=false;
-   l1=false;
-   l2=false;
-   l3=false;
-   l4=false;
-   l5=false;
-   l6=false;
-   l7=false;
+  
+   lucesPosicionales_activadas.clear();
+   lucesPosicionales_activadas.resize(7);
+   for(int i=0; i<7; i++){
+      lucesPosicionales_activadas.push_back(false);
+   }
 }
 
 // **************************************************************************
@@ -378,7 +381,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          // ESTAMOS EN MODO SELECCION DE MODO DE VISUALIZACION
          modoMenu=SELVISUALIZACION;
          cout << "Seleccion del modo de visualizacion \n";
-         cout << "Opciones: \n P: modo puntos \n L: modo Líneas \n S: modo Solido \n A: modo Ajedrez \n M: modo visualizacion simultanea \n I: Iluminacion \n  T: Textura \n Q: Salir" << endl;
+         cout << "Opciones: \n P: modo puntos \n L: modo Líneas \n S: modo Solido \n A: modo Ajedrez \n M: modo visualizacion simultanea \n I: Iluminacion \nT: Textura \n Q: Salir" << endl;
       break ;
       case 'D' :
          // ESTAMOS EN MODO SELECCION DE DIBUJADO
@@ -674,32 +677,55 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          break;
          //LUCES DE 0 A 7
          case '0':
-            luces('0');
+            luces(0);
             
          break;
          case '1':
-            luces('1');
+            luces(1);
          break;
          case '2':
-            luces('2');
+            luces(2);
          break;
          case '3':
-            luces('3');
+            luces(3);
          break;
          case '4':
-           luces('4');
+           luces(4);
          break;
          case '5':
-            luces('5');
+            luces(5);
          break;
          case '6':
-            luces('6');
+            luces(6);
          break;
          case '7':
-            luces('7');
+            luces(7);
          break;
 
          
+
+      }
+   }else if(modoMenu == GIRAR){
+    /*-------------------------MENÚ VARIAR POSICION LUCES------------------------------------------------*/
+      switch(toupper(tecla)){
+         case 'Q':
+               if(modoMenu!=NADA){
+                  cout << "Seleccion de iluminacion " << endl;
+                  cout << "0..7: Luces de la 0 a la 7 \n I: Desactivar iluminacion \n A: Variar angulo ALPHA \n B: Variar angulo BETA \n >: Incrementar angulo \n <: Decrementar angulo \n Q:Salir \n ";
+                  modoMenu=ILUMINACION;  
+               }else{
+                  salir=true;
+               }
+         break;
+         case '+':
+            cout<< "Aumento" << endl;
+            moverLuces(true);
+         break;
+         case '-':
+            cout << "Disminuyo" << endl;
+            moverLuces(false);
+       
+         break;
 
       }
    }else if(modoMenu == ELEFANTE){
@@ -805,35 +831,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          break;
 
       }
-   }else if(modoMenu == GIRAR){
-    /*-------------------------MENÚ VARIAR POSICION LUCES------------------------------------------------*/
-      switch(toupper(tecla)){
-         case 'Q':
-               if(modoMenu!=NADA){
-                  //  cout << "Mueve al elefante " << endl;
-                  // cout << "A: Mover cabeza en X \n B: Mover cabeza en Y \n C: Mover trompa en Z \n D: Mover trompa en X \n E: Mover trompita en X \n F: Mover trompita en Z \n G: Mover Patas \n  Q:Salir \n ";
-                  modoMenu=ELEFANTE;  
-               }else{
-                  salir=true;
-               }
-         break;
-         case '+':
-         cout << "Entra" << endl;
-            posicion[0]  = 0;
-            posicion[1]  = 0;
-            posicion[2]  = 0;
-           
-            luz1->mover(posicion);
-         break;
-         case '-':
-              posicion[0] -= 10;
-           
-            luz1->mover(posicion);
-         break;
-
-      }
    }
-
 
    return salir;
 }
@@ -852,111 +850,62 @@ void Escena::encenderLuces(bool encender){
    }
 }
 
-void Escena::luces(char id){
-   switch (id){
-         case '0':
-            if(l0){
+void Escena::luces(int id){
+   if(id==0){
+      if(l0){
                cout << "Luz 0 desactivada" << endl;
                l0=false;
-               glDisable(GL_LIGHT0);
+               luz0->desactivar();
             }else{
                cout<< "Luz 0 activada" << endl;
                l0=true;
-               glEnable(GL_LIGHT0);
                luz0->activar();
             }
             
-         break;
-         case '1':
-             if(l1){
-               cout << "Luz 1 desactivada" << endl;
-               l1=false;
-               glDisable(GL_LIGHT1);
+   }else{
+      for(int i=1; i<8; i++){
+         if(id==i){
+             if(lucesPosicionales_activadas[i]){
+               cout << "Luz "<< i << " desactivada" << endl;
+               lucesPosicionales_activadas[i]=false;
+               lucesPosicionales[i]->desactivar();
             }else{
-               cout<< "Luz 1 activada" << endl;
-               l1=true;
-               glEnable(GL_LIGHT1);
-               luz1->activar();
+               cout<< "Luz " << i << " activada" << endl;
+               lucesPosicionales_activadas[i]=true;
+               lucesPosicionales[i]->activar();
+      
                modoMenu=GIRAR;
+               cout << "Gira las luces " << endl;
+               cout << "+: Aumnentar \n-: Disminuir \n Q: Salir \n";
             }
-         break;
-         case '2':
-             if(l2){
-                cout << "Luz 2 desactivada" << endl;
-                l2=false;
-               glDisable(GL_LIGHT2);
-            }else{
-               cout<< "Luz 2 activada" << endl;
-               l2=true;
-                glEnable(GL_LIGHT2);
-               luz2->activar();
-            }
-         break;
-         case '3':
-            if(l3){
-               cout << "Luz 3 desactivada" << endl;
-               l3=false;
-               glDisable(GL_LIGHT3);
-            }else{
-               cout<< "Luz 3 activada" << endl;
-               l3=true;
-                glEnable(GL_LIGHT3);
-               luz3->activar();
-            }
-         break;
-         case '4':
-             if(l4){
-                cout << "Luz 4 desactivada" << endl;
-                l4 =false;
-               glDisable(GL_LIGHT4);
-            }else{
-               cout<< "Luz 4 activada" << endl;
-               l4=true;
-                glEnable(GL_LIGHT4);
-               luz4->activar();
-            }
-         break;
-         case '5':
-             if(l5){
-                cout << "Luz 5 desactivada" << endl;
-                l5 =false;
-               glDisable(GL_LIGHT5);
-            }else{
-               cout<< "Luz 5 activada" << endl;
-               l5=true;
-                glEnable(GL_LIGHT5);
-               luz5->activar();
-            }
-         break;
-         case '6':
-             if(l6){
-                cout << "Luz 6 desactivada" << endl;
-                l6 =false;
-               glDisable(GL_LIGHT6);
-            }else{
-               cout<< "Luz 6 activada" << endl;
-               l6=true;
-                glEnable(GL_LIGHT6);
-               luz6->activar();
-            }
-         break;
-         case '7':
-             if(l7){
-                cout << "Luz 7 desactivada" << endl;
-                l7 =false;
-               glDisable(GL_LIGHT7);
-            }else{
-               cout<< "Luz 7 activada" << endl;
-               l7=true;
-                glEnable(GL_LIGHT7);
-               luz7->activar();
-            }
-         break;
+         }
+      }
    }
-  
   
 }
 
+
+void Escena::moverLuces(bool mover){
+   //Mueve todas las luces posicionales que estén activadas 
+   for(int i=0; i<7; i++){
+      if(lucesPosicionales_activadas[i]){
+           posicion = lucesPosicionales[i]->getPosicion();
+            if(mover){
+               posicion[0]  += 10;
+               posicion[1]  += 10;
+               posicion[2]  += 10;  
+               
+            }else{
+               posicion[0]  -= 10;
+               posicion[1]  -= 10;
+               posicion[2]  -= 10;  
+            }   
+      }
+      lucesPosicionales[i]->mover(posicion);
+   }
+      
+  
+}
 
 /*---------------------------------MOVIMIENTOS DEL ELEFANTE------------------------------------------*/
 

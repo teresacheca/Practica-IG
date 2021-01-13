@@ -83,22 +83,12 @@ class Escena
 
          LuzDireccional * luz0;     //Luz direccional
      
-         LuzPosicional * luz1;
-         LuzPosicional * luz2;
-         LuzPosicional * luz3;
-         LuzPosicional * luz4;
-         LuzPosicional * luz5;
-         LuzPosicional * luz6;
-         LuzPosicional * luz7;
+       
+         std::vector<LuzPosicional *> lucesPosicionales;
 
          bool l0;
-         bool l1;
-         bool l2;
-         bool l3;
-         bool l4;
-         bool l5;
-         bool l6;
-         bool l7;
+      
+         std::vector<bool> lucesPosicionales_activadas;
 
          Tupla3f posicion;
 
@@ -132,10 +122,12 @@ class Escena
 
       void encenderLuces(bool encender);
 
-      void luces(char id);
+      void luces(int id);
       void inicializaLuces();
 
       void animarModeloJerarquico();
+
+      void moverLuces(bool mover);
 	
 };
 #endif
