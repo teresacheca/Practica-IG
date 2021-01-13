@@ -17,6 +17,7 @@
 #include "semiesfera.h"
 #include "cilindro.h"
 #include "cono.h"
+#include "textura.h"
 
 // *****************************************************************************
 //
@@ -64,6 +65,11 @@ class Elefante: public Malla3D
       float patasMax;
       float trompitaXMax;
       float trompitaYMax;
+
+      Textura * piel;
+      Textura * marfil;
+      Textura * ojos;
+      Textura * orejas;
 
      
 

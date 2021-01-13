@@ -31,7 +31,7 @@ void Malla3D::draw_ModoInmediato()
    glEnableClientState(GL_COLOR_ARRAY);
 
    glVertexPointer(3, GL_FLOAT, 0, v.data());
-  // glColorPointer(3, GL_FLOAT,0 , color.data());
+   //glColorPointer(3, GL_FLOAT,0 , color.data());
  
   
    if(glIsEnabled(GL_LIGHTING)){
@@ -51,13 +51,10 @@ void Malla3D::draw_ModoInmediato()
       
          textura->activa();
         // calcular_textura();
-         setColor(1.0,1.0,1.0);
+         //setColor(1.0,1.0,1.0);
+          glDisableClientState(GL_COLOR_ARRAY);
          glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-         glTexCoordPointer(2,GL_FLOAT,0, ct.data());
-
-         
-     }else{
-        setColor(0.2,0.9,0.95);
+         glTexCoordPointer(2,GL_FLOAT,0, ct.data());      
      }
 
    if(ajedrez){

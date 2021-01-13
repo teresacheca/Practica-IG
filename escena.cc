@@ -73,9 +73,9 @@ Escena::Escena()
    ilumina = false;
    angulo = 'X';         //Lo inicializamos a una letra que dará error si no seleccionamos el angulo antes
 
- cambio_color(0.2,0.9,0.95);
+ //cambio_color(0.2,0.9,0.95);
   
-      cubo->setColor(0.2,0.9,0.95); 
+    /* cubo->setColor(0.2,0.9,0.95); 
   
       tetraedro->setColor(0.2,0.9,0.95); 
    
@@ -85,7 +85,7 @@ Escena::Escena()
   
       objC->setColor(0.2,0.9,0.95); 
   
-      objE->setColor(0.2,0.9,0.95); 
+      objE->setColor(0.2,0.9,0.95); */
    
    inicializaLuces();
 
@@ -459,6 +459,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          }else{
             figura='E';
          }
+         color.clear();
           cout<< "Con tapas \n 1: Si \n 2: No \n Q: Salir \n" ;
           modoMenu = TAPAS;
       break;

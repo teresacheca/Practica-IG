@@ -31,13 +31,6 @@ Cilindro::Cilindro(const int num_vert_perfil, const int num_instancias_perf, con
         p[i]=perfil[i];
     }
 
-  
-   
-
-
-
-    
- 
  
 }
 

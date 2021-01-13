@@ -47,6 +47,13 @@ Elefante::Elefante()
    cono->setMaterial(material);
    cilindro->setMaterial(material);
 
+   piel = new Textura("elefante.jpg");
+   marfil =  new Textura("marfil.jpg");
+   ojos = new Textura("ojos.jpg");
+   orejas = new Textura("oreja.jpg");
+
+
+
 }
  
 
@@ -92,11 +99,13 @@ void Elefante::cuerno(){
       glRotatef(180,0,0,1);
       glScalef(5,5,5);
       semiesfera->setColor(0.9,0.9,0.9);
+      semiesfera->setTextura(marfil);
       semiesfera->draw('I');
    glPopMatrix();
    glPushMatrix();
       glScalef(5,100,5);
       cilindro->setColor(0.9,0.9,0.9);
+      cilindro->setTextura(marfil);
       cilindro->draw('I');
    glPopMatrix();
 }
@@ -107,6 +116,7 @@ void Elefante::trompa(){
       glPushMatrix();
          glTranslatef(0,54,0);
          glScalef(20,50,20);
+         semiesfera->setTextura(piel);
          semiesfera->draw('I');
       glPopMatrix();
      
@@ -119,10 +129,12 @@ void Elefante::trompa(){
           glPushMatrix();
             glTranslatef(0,47,0);
             glScalef(20,20,20);
+            esfera->setTextura(piel);
             esfera->draw('I');
          glPopMatrix();
          glPushMatrix();
             glScalef(20,80,20);
+            cilindro->setTextura(piel);
             cilindro->draw('I');
          glPopMatrix();
          
@@ -134,13 +146,15 @@ void Elefante::trompa(){
             glPushMatrix();
                glTranslatef(0,-47,0);
                glScalef(20,20,20);
+               esfera->setTextura(piel);
                esfera->draw('I');
             glPopMatrix();
             
             glPushMatrix();   
                glTranslatef(0,-54,0);
                glRotatef(180,0,0,1);
-               glScalef(20,50,20),
+               glScalef(20,50,20);
+               semiesfera->setTextura(piel);
                semiesfera->draw('I');
             glPopMatrix();
          glPopMatrix();
@@ -152,6 +166,7 @@ void Elefante::ojo(){
    glPushMatrix();
       glScalef(5,5,0.1);
       esfera->setColor(0.0,0.0,0.0);
+      esfera->setTextura(ojos);
       esfera->draw('I');
    glPopMatrix();
 }
@@ -161,11 +176,13 @@ void Elefante::oreja(){
          glRotatef(180,0,0,1);
          glScalef(30,70,1);
          semiesfera->setColor(1,0.9,0.9);
+         semiesfera->setTextura(orejas);
          semiesfera->draw('I');
       glPopMatrix();
       glPushMatrix();
          glScalef(30,30,1);
          semiesfera->setColor(1,0.9,0.9);
+         semiesfera->setTextura(orejas);
          semiesfera->draw('I');
       glPopMatrix();
    glPopMatrix();
@@ -195,6 +212,7 @@ void Elefante::cabeza(){
       glPushMatrix();
          glScalef(50,50,50);
          esfera->setColor(0.75,0.75,0.75);
+         esfera->setTextura(piel);
          esfera->draw('I');
       glPopMatrix();
 
@@ -242,18 +260,21 @@ void Elefante::cola(){
       glPushMatrix();
          glScalef(5,40,5);
          cilindro->setColor(0.75,0.75,0.75);
+         cilindro->setTextura(piel);
          cilindro->draw('I');
       glPopMatrix();
       glPushMatrix();
          glTranslatef(0,20,0);
          glScalef(5,5,5);
          semiesfera->setColor(0.75,0.75,0.75);
+         semiesfera->setTextura(piel);
          semiesfera->draw('I');
       glPopMatrix();
       glPushMatrix();
          glTranslatef(0,-25,0);
          glScalef(5,5,5);
          esfera->setColor(0.0,0.0,0.0);
+         esfera->setTextura(piel);
          esfera->draw('I');
       glPopMatrix();
       glPushMatrix();
@@ -261,6 +282,7 @@ void Elefante::cola(){
          glRotatef(180,0,0,1);
          glScalef(5,10,5);
          cono->setColor(0.0,0.0,0.0);
+         cono->setTextura(piel);
          cono->draw('I');
       glPopMatrix();
    glPopMatrix();
@@ -271,6 +293,7 @@ void Elefante::tronco(){
    glPushMatrix();
       glScalef(200,100,100);
       esfera->setColor(0.6,0.6,0.6);
+      esfera->setTextura(piel);
       esfera->draw('I');
    glPopMatrix();
 }
@@ -281,12 +304,14 @@ void Elefante::pata(){
       glPushMatrix();
          glScalef(20,50,20);
          cilindro->setColor(0.75,0.75,0.75);
+         cilindro->setTextura(piel);
          cilindro->draw('I');
       glPopMatrix();
       glPushMatrix();
          glTranslatef(0,25,0);
          glScalef(20,20,20);
          semiesfera->setColor(0.75,0.75,0.75);
+         semiesfera->setTextura(piel);
          semiesfera->draw('I');
       glPopMatrix();
    glPopMatrix();
