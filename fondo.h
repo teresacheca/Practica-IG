@@ -13,7 +13,8 @@
 #include "aux.h"
 #include "lata.h"
 #include "pelota.h"
-
+#include "suelo.h"
+#include "horizonte.h"
 
 // *****************************************************************************
 //
@@ -30,6 +31,8 @@ class Fondo
 	private:
 		Lata * lata;
 		Pelota * pelota;
+		Suelo * suelo;
+		Horizonte * horizonte;
 } ;
 
 

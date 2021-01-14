@@ -97,6 +97,9 @@ Escena::Escena()
  
    text=false;
    glDisable(GL_TEXTURE_2D);
+
+   automatico = auto_cabeza = auto_trompa = auto_trompita = 1;
+
    
 }
 
@@ -804,7 +807,11 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          break;
          case 'I':
             cout << "Automatico " << endl;
-           parte='I';
+            parte='I';
+            modoMenu = PARTE;
+            cout << "Cambia la velocidad de movimiento " << endl;
+            cout << " G: General \n C: Cabeza \n T: Trompa \n P: Trompita \n Q:Salir \n ";
+                
          break;
       }
        
@@ -814,7 +821,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          case 'Q':
                if(modoMenu!=NADA){
                     cout << "Mueve al elefante " << endl;
-                   cout << "A: Mover cabeza en X \n B: Mover cabeza en Y \n C: Mover trompa en Z \n D: Mover trompa en X \n E: Mover trompita en X \n F: Mover trompita en Z \n G: Mover Patas \n  Q:Salir \n ";
+                   cout << "A: Mover cabeza en X \n B: Mover cabeza en Y \n C: Mover trompa en Z \n D: Mover trompa en X \n E: Mover trompita en X \n F: Mover trompita en Z \n G: Mover Patas \n H: Agachar \n I: Automatico  \n  Q:Salir \n ";
                   modoMenu=ELEFANTE;  
                }else{
                   salir=true;
@@ -831,13 +838,101 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          break;
 
       }
+   }else if(modoMenu == PARTE){
+    /*-------------------------MENÚ VARIAR ÁNGULO DE GIRO------------------------------------------------*/
+      switch(toupper(tecla)){
+         case 'Q':
+               if(modoMenu!=NADA){
+                    cout << "Mueve al elefante " << endl;
+                   cout << "A: Mover cabeza en X \n B: Mover cabeza en Y \n C: Mover trompa en Z \n D: Mover trompa en X \n E: Mover trompita en X \n F: Mover trompita en Z \n G: Mover Patas \n H: Agachar \n I: Automatico  \n  Q:Salir \n ";
+                  modoMenu=ELEFANTE;  
+               }else{
+                  salir=true;
+               }
+         break;
+         case 'G':
+            mover = 'G';
+            modoMenu = AUTOMATICO;
+            cout << " +: Aumenta \n -: Disminuye \n Q: Salir \n";
+         break;
+         case 'C':
+            mover = 'C';
+            modoMenu = AUTOMATICO;
+            cout << " +: Aumenta \n -: Disminuye \n Q: Salir \n";
+         break;
+         case 'T':
+            mover = 'T';
+            modoMenu = AUTOMATICO;
+            cout << " +: Aumenta \n -: Disminuye \n Q: Salir \n";
+         break;
+         case 'P':
+            mover = 'P';
+            modoMenu = AUTOMATICO;
+            cout << " +: Aumenta \n -: Disminuye \n Q: Salir \n";
+         break;
+
+      }
+   }
+   else if(modoMenu == AUTOMATICO){
+    /*-------------------------MENÚ VARIAR ÁNGULO DE GIRO------------------------------------------------*/
+      switch(toupper(tecla)){
+         case 'Q':
+               if(modoMenu!=NADA){
+                  cout << "Cambia la velocidad de movimiento " << endl;
+                  cout << " G: General \n C: Cabeza \n T: Trompa \n P: Trompita \n Q:Salir \n ";
+                  modoMenu=PARTE;  
+               }else{
+                  salir=true;
+               }
+         break;
+         case '+':
+            variarGiroAutomatico(mover, true);
+         break;
+         case '-':
+            variarGiroAutomatico(mover, false);
+         break;
+
+      }
    }
 
    return salir;
 }
 
 
+void Escena::variarGiroAutomatico(char l, bool mas){
+   switch (l)
+   {
+   case 'G':
+      if(mas){
+         automatico *= 2;
+      }else{
+         automatico /= 2;
+      }
+   break;
+   case 'C':
+    if(mas){
+         auto_cabeza *= 2;
+      }else{
+         auto_cabeza /= 2;
+      }
+   break;
+   case 'T':
+    if(mas){
+         auto_trompa *= 2;
+      }else{
+         auto_trompa /= 2;
+      }
+   break;
+   case 'P':
+    if(mas){
+         auto_trompita *= 2;
+      }else{
+         auto_trompita /= 2;
+      }
+   break;
+   }
 
+}
 
 /*-------------------------------------------LUCES------------------------------------------------*/
 
@@ -946,9 +1041,9 @@ void Escena::animarModeloJerarquico(){
          cambioSentido*=-1;
       }
 
-      elefante->setGiroCabezaY(0.05*cambioSentido);
-      elefante->setGiroTrompaX(0.05*cambioSentido);
-      elefante->setGiroTrompaPequeniaX(0.05*cambioSentido); 
+      elefante->setGiroCabezaY(0.05*cambioSentido*automatico*auto_cabeza);
+      elefante->setGiroTrompaX(0.05*cambioSentido*automatico*auto_trompa);
+      elefante->setGiroTrompaPequeniaX(0.05*cambioSentido*automatico*auto_trompita); 
     
    }
   

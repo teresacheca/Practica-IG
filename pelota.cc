@@ -13,7 +13,7 @@ Pelota::Pelota(){
    Tupla4f tupla={0.0,0.75,0.75,0.75};
    Material * material =  new Material(tupla, tupla, tupla, 120.0);
    esfera->setMaterial(material);
-   esfera->setColor(0.0,1.0,0.5);
+   esfera->setColor(1.0,1.0,0.0);
 
 }
 

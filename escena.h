@@ -18,7 +18,7 @@
 
 using namespace std;
 
-typedef enum {NADA, SELOBJETO,SELVISUALIZACION,SELDIBUJADO, SIMULTANEOS, TAPAS, ILUMINACION, ELEFANTE, MOVER, GIRAR} menu;
+typedef enum {NADA, SELOBJETO,SELVISUALIZACION,SELDIBUJADO, SIMULTANEOS, TAPAS, ILUMINACION, ELEFANTE, MOVER, GIRAR, AUTOMATICO, PARTE} menu;
 class Escena
 {
 
@@ -80,6 +80,11 @@ class Escena
          void moverElefante();
          bool agachar;
          int cambioSentido;
+         float automatico;
+         float auto_cabeza;
+         float auto_trompa;
+         float auto_trompita;
+         char mover;
 
          LuzDireccional * luz0;     //Luz direccional
      
@@ -128,6 +133,8 @@ class Escena
       void animarModeloJerarquico();
 
       void moverLuces(bool mover);
+
+      void variarGiroAutomatico(char l, bool mas);
 	
 };
 #endif
