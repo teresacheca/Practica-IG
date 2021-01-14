@@ -8,6 +8,8 @@ using namespace std;
 //
 // *****************************************************************************
 
+
+
 void Luz::activar(){
     glEnable(id);
     id = getId();

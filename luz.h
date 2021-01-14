@@ -26,6 +26,7 @@ class Luz
       GLenum componente;
 
    public:
+    
       void activar();
       void desactivar();
 

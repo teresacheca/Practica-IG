@@ -34,9 +34,9 @@ Tetraedro::Tetraedro()
        {0,1,2}    //cara de abajo
        };
 
- r=0;
- g=0;
- b=0;
+ r=0.2;
+  g=0.9;
+  b=0.95;
   color= {
       {r,g,b},
       {r,g,b},

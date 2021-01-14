@@ -27,6 +27,8 @@ class Material
    public:
       Material(Tupla4f mdifuso, Tupla4f mespecular, Tupla4f mambiente, float brillo);
 
+      ~Material();
+      
       void aplicar();
 
      /* Tupla4f getAmbiente();

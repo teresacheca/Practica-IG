@@ -29,17 +29,18 @@ class Malla3D
   public:
 
     Malla3D();
+    ~Malla3D();
 
     // dibuja el objeto en modo inmediato
-    void draw_ModoInmediato();
+    void draw_ModoInmediato(int size);
 
     // dibuja el objeto en modo diferido (usando VBOs)
-    void draw_ModoDiferido();
+    void draw_ModoDiferido(GLuint vbo_caras, GLuint vbo_colores, int size);
 
     // función que redibuja el objeto
     // está función llama a 'draw_ModoInmediato' (modo inmediato)
     // o bien a 'draw_ModoDiferido' (modo diferido, VBOs)
-    void draw(int m) ;
+    virtual void draw(char m, int numero_caras) ;
 
 
     GLuint CrearVBO ( GLuint tipo_vbo , GLuint tamanio_bytes , GLvoid * puntero_ram );
@@ -48,16 +49,21 @@ class Malla3D
     void setColor(Tupla3f &c);
     void setColor(float _r, float _g, float _b);
     void setColorVertice(int indice, float a, float b, float c);
-    void setVertices(std::vector<Tupla3f> aux);
-    void setCaras(std::vector<Tupla3i> aux);
-    std::vector<Tupla3f> getVertices();
-    void dibujarAjedrez();
+    inline void setVertices(const std::vector<Tupla3f>& aux) { v = aux; }
+
+    void setCaras(const std::vector<Tupla3i>& aux);
+    const std::vector<Tupla3i>& getCaras();
+    const std::vector<Tupla3f>& getVertices();  // <- Si se va a cambiar, referencia normal
+    void construirAjedrez();
 
 
     void setMaterial(Material *mat);
     void setTextura(Textura *tex);
 
     void calcular_textura();
+
+    void normales();
+    void texturas();
 
   
     Material *  material=nullptr;
@@ -88,6 +94,8 @@ class Malla3D
     GLuint id_vbo_impares=0;
     GLuint id_vbo_color_par=0;
     GLuint id_vbo_color_impar=0;
+    GLuint id_vbo_normales=0;
+    GLuint id_vbo_textura=0;
     std::vector<Tupla3f> color;
     std::vector<Tupla3f> color_par;
     std::vector<Tupla3f> color_impar;

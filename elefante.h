@@ -2,7 +2,7 @@
 //
 // Informática Gráfica (Grado Informática)
 //
-// Archivo: tetraedro.h
+// Archivo: elefante.h
 
 //
 // #############################################################################
@@ -18,22 +18,25 @@
 #include "cilindro.h"
 #include "cono.h"
 #include "textura.h"
+#include "cabeza.h"
+#include "cuerpo.h"
+#include "material.h"
 
 // *****************************************************************************
 //
-// clases elefante
+// clase elefante
 //
 // *****************************************************************************
 
 // *****************************************************************************
-// Tetraedro con centro en el origen 
+
 
 class Elefante: public Malla3D
 {
    public:
       Elefante();
       void draw();
-      void cuerno();
+    /*  void cuerno();
       void trompa();
       void ojo();
       void oreja();
@@ -41,13 +44,16 @@ class Elefante: public Malla3D
       void pata();
       void cuerpo();
       void tronco();
-      void cabeza();
+      void cabeza();*/
     
-      Malla3D dibujaCuerno();
+      Cabeza * cabeza;
+      Cuerpo * cuerpo;
+
+    /*  Malla3D dibujaCuerno();
       ObjRevolucion * esfera;
       ObjRevolucion * semiesfera;
       ObjRevolucion * cono;
-      ObjRevolucion * cilindro;
+      ObjRevolucion * cilindro;*/
 
       float giroCabezaX;
       float giroCabezaY;
@@ -73,35 +79,34 @@ class Elefante: public Malla3D
 
      
 
-      void modificaGiroTrompaX();
-      void modificaGiroTrompaZ();
+      virtual void modificaGiroTrompaX();
+      virtual void modificaGiroTrompaZ();
       void modificaGiroCabezaX();
       void modificaGiroCabezaY();
-      void modificaGiroPatas();
-      void modificaGiroTrompaPequeniaX();
-      void modificaGiroTrompaPequeniaZ();
-      void giroPatasDerechas();   
-      void giroPatasIzquierdas();
+      virtual void modificaGiroTrompaPequeniaX();
+      virtual void modificaGiroTrompaPequeniaZ();
+      virtual void giroPatasDerechas();   
+      virtual void giroPatasIzquierdas();
       void agacharse();
   
 
-     void setGiroPatas(float valor);
-     void setGiroTrompaX(float valor);
-     void setGiroTrompaZ(float valor);
+     virtual void setGiroPatas(float valor);
+     virtual void setGiroTrompaX(float valor);
+     virtual void setGiroTrompaZ(float valor);
      void setGiroCabezaX(float valor);
      void setGiroCabezaY(float valor);
-     void setGiroTrompaPequeniaX(float valor);
-     void setGiroTrompaPequeniaZ(float valor);
-     void setAgacharse(bool valor);
+     virtual void setGiroTrompaPequeniaX(float valor);
+     virtual void setGiroTrompaPequeniaZ(float valor);
+     virtual void setAgacharse(bool valor);
      bool getAgacharse();
 
-     float getGiroPatas();
-     float getGiroTrompaX();
-     float getGiroTrompaZ();
+     virtual float getGiroPatas();
+     virtual float getGiroTrompaX();
+     virtual float getGiroTrompaZ();
      float getGiroCabezaX();
      float getGiroCabezaY();
-     float getGiroTrompaPequeniaX();
-     float getGiroTrompaPequeniaZ();
+     virtual float getGiroTrompaPequeniaX();
+     virtual float getGiroTrompaPequeniaZ();
 
      float getPatasMax();
      float getTrompaXMax();

@@ -18,11 +18,15 @@ using namespace std;
 
 ObjRevolucion::ObjRevolucion() {}
 
+ObjRevolucion::~ObjRevolucion(){
+   p.clear();
+   c.clear();
+}
+
 ObjRevolucion::ObjRevolucion(const std::string & archivo, int num_instancias, bool tapa_sup, bool tapa_inf) {
    // completar ......(práctica 2)
    std::vector<Tupla3f>perfil;
    ply::read_vertices(archivo, perfil);
-   p_original=perfil;
    crear(perfil, num_instancias, tapa_sup, tapa_inf);
   
    
@@ -33,7 +37,6 @@ ObjRevolucion::ObjRevolucion(const std::string & archivo, int num_instancias, bo
 
  
 ObjRevolucion::ObjRevolucion(std::vector<Tupla3f> perfil, int num_instancias, bool tapa_sup, bool tapa_inf) {
-   p_original=perfil;
    crear(perfil, num_instancias, tapa_sup, tapa_inf);
 
 }
@@ -54,7 +57,10 @@ void ObjRevolucion::crear(std::vector<Tupla3f>perfil, int num_instancias, bool t
 
       crearMalla(perfil, num_instancias, conTapa);
  
-      this->c_sinTapas = c;
+      //this->c_sinTapas = c;
+      
+      num_caras_sinTapas=c.size();
+      
 
       aniadirTapas(tapa_inf, tapa_sup);
 
@@ -67,7 +73,12 @@ void ObjRevolucion::crear(std::vector<Tupla3f>perfil, int num_instancias, bool t
       
       material =  new Material(colorMaterial, colorMaterial, colorMaterial, 120.0);
       
+      num_caras_conTapas = c.size();
+     
+
       setCaras(c);
+
+      setColor(0.2, 0.9, 0.95);
    }
    
 
@@ -182,15 +193,7 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
 
 //Para ponerle y quitarle las tapas al objeto
  void ObjRevolucion::ponerTapas(bool tapas){
-    /*if(tapas){
-       setCaras(this->c);
-      
-    }else{
-       setCaras(this->c_sinTapas);
-    }*/
-   p.clear();
-    c.clear();
-    crear(this->p_original, n_instancias, false, false);
+    this->tapas = tapas;
  }
 
 
@@ -205,7 +208,6 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
    if(tapa_inf){
      
       aux=(p.size()-2);       //polo sur
-       cout << aux << " " << p[p.size()-2] << endl;
       for(int i=0; i<=n_instancias; i++){
          t[0]=aux;
          t[1]=(i*(n_ver));
@@ -220,7 +222,6 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
 
    if(tapa_sup){
       aux=(p.size()-1);      //polo norte
-      cout << "norte "<<  aux << endl;
        for(int i=0; i<n_instancias; i++){
          t[0]=aux;
          t[2]=(i*n_ver)+(n_ver-1);
@@ -252,8 +253,10 @@ void ObjRevolucion::coordTextura() {
    
 }
 
-
-void ObjRevolucion::eliminarTapas(){
-   cout << "tamanio " <<p.size() << endl;
-   crearMalla(this->p, this->n_instancias, false);
+void ObjRevolucion::draw(char letra) {
+   if(tapas) {
+      Malla3D::draw(letra, num_caras_conTapas);
+   } else {
+      Malla3D::draw(letra, num_caras_sinTapas);
+   }
 }

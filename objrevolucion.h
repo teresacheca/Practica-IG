@@ -34,14 +34,15 @@ class ObjRevolucion : public Malla3D
         bool tapas=true;
         bool norte, sur;
         std::vector<Tupla3f> p;
-        std::vector<Tupla3f> p_original;
         std::vector<Tupla3i> c;
-        std::vector<Tupla3i> c_sinTapas;
+        int num_caras_conTapas;
+        int num_caras_sinTapas;
         Tupla4f colorMaterial;
-        float epsilon = 0.00001;
+        const float epsilon = 0.00001;
 
 
         ObjRevolucion();
+        ~ObjRevolucion();
         ObjRevolucion(const std::string & archivo, int num_instancias, bool tapa_sup=true, bool tapa_inf=true) ;
         ObjRevolucion(std::vector<Tupla3f> perfil, int num_instancias, bool tapa_sup=true, bool tapa_inf=true) ;
         void crear(std::vector<Tupla3f>, int num_instancias, bool tapa_sup, bool tapa_inf);
@@ -58,7 +59,8 @@ class ObjRevolucion : public Malla3D
 
         void coordTextura();
 
-        void eliminarTapas();
+        //Sobrecargado
+        void draw(char letra);
 
     private:
         void crearMalla(std::vector<Tupla3f> perfil_original, int num_instancias, const bool conTapas);

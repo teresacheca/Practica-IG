@@ -17,6 +17,10 @@ Material::Material(Tupla4f mdifuso, Tupla4f mespecular, Tupla4f mambiente, float
     
 }
 
+Material::~Material(){
+   
+}
+
 
 void Material::aplicar(){
     Tupla4f color;

@@ -31,6 +31,7 @@ class Textura
 
    public:
       Textura(std::string archivo);
+      ~Textura();
       void activa();
     
         

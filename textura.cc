@@ -18,15 +18,11 @@ using namespace std;
       texel = pimg->leerPixels();
 
      
-     /*  for(int i=0; i<width; i++){
-          for(int j=0; j<height; j++){
-             
-                data.push_back(*(pimg->leerPixel(i, j)));
-                data.push_back(*(pimg->leerPixel(i, j)+1));
-                data.push_back(*(pimg->leerPixel(i, j)+2));
-          }
-      }*/
   }
+
+Textura::~Textura(){
+    data.clear();
+}
     
   void Textura::activa(){
      // glEnable(GL_TEXTURE_2D);

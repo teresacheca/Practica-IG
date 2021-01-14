@@ -73,7 +73,7 @@ Escena::Escena()
    ilumina = false;
    angulo = 'X';         //Lo inicializamos a una letra que dará error si no seleccionamos el angulo antes
 
- //cambio_color(0.2,0.9,0.95);
+   //cambio_color(0.2,0.9,0.95);
   
     /* cubo->setColor(0.2,0.9,0.95); 
   
@@ -217,13 +217,13 @@ void Escena::dibujar_objeto(){
    }
    if(figura=='C'){
       cubo->setModoAjedrez(modoAjedrez);
-      cubo->draw(letra);
+      cubo->draw(letra, cubo->getCaras().size());
    }else if(figura=='T'){
       tetraedro->setModoAjedrez(modoAjedrez);
-      tetraedro->draw(letra);
+      tetraedro->draw(letra, tetraedro->getCaras().size());
    }else if(figura=='P'){
       objeto->setModoAjedrez(modoAjedrez);
-      objeto->draw(letra);
+      objeto->draw(letra, objeto->getCaras().size());
    }else if(figura=='I'){
       objI->setModoAjedrez(modoAjedrez);
       objI->ponerTapas(tapas);
@@ -231,7 +231,6 @@ void Escena::dibujar_objeto(){
    }else if(figura=='O'){
       objC->setModoAjedrez(modoAjedrez);
       objC->ponerTapas(tapas);
-      
       objC->draw(letra);
    }else if(figura=='E'){
       objE->setModoAjedrez(modoAjedrez);
@@ -333,11 +332,11 @@ void Escena::variosObjetos(){
       glPopMatrix();
       glPushMatrix();
          glTranslatef(0, -200, 0);
-         cubo->draw('I');
+         cubo->draw('I', cubo->getCaras().size());
       glPopMatrix();
       glPushMatrix();
          glTranslatef(0, 0, 100);
-         tetraedro->draw('I');
+         tetraedro->draw('I', tetraedro->getCaras().size());
       glPopMatrix();
       /*glPushMatrix();
          glTranslatef(0, 0, -100);
@@ -381,7 +380,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          // ESTAMOS EN MODO SELECCION DE MODO DE VISUALIZACION
          modoMenu=SELVISUALIZACION;
          cout << "Seleccion del modo de visualizacion \n";
-         cout << "Opciones: \n P: modo puntos \n L: modo Líneas \n S: modo Solido \n A: modo Ajedrez \n M: modo visualizacion simultanea \n I: Iluminacion \nT: Textura \n Q: Salir" << endl;
+         cout << "Opciones: \n P: modo puntos \n L: modo Líneas \n S: modo Solido \n A: modo Ajedrez \n M: modo visualizacion simultanea \n I: Iluminacion \n T: Textura \n Q: Salir" << endl;
       break ;
       case 'D' :
          // ESTAMOS EN MODO SELECCION DE DIBUJADO
@@ -628,7 +627,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          case 'Q':
                if(modoMenu!=NADA){
                   cout << "Seleccion del modo de visualizacion \n";
-                  cout << "Opciones: \n P: modo puntos \n L: modo Líneas \n S: modo Solido \n A: modo Ajedrez \n M: modo visualizacion simultanea \n I; Iluminacion \n Q: Salir" << endl;
+                  cout << "Opciones: \n P: modo puntos \n L: modo Líneas \n S: modo Solido \n A: modo Ajedrez \n M: modo visualizacion simultanea \n I; Iluminacion \n T: Textura \n Q: Salir" << endl;
                   modoMenu=SELVISUALIZACION;  
                }else{
                   salir=true;
@@ -639,7 +638,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
             ilumina=false;
             modoMenu=SELVISUALIZACION;
             cout << "Seleccion del modo de visualizacion \n";
-            cout << "Opciones: \n P: modo puntos \n L: modo Líneas \n S: modo Solido \n A: modo Ajedrez \n M: modo visualizacion simultanea \n I; Iluminacion \n Q: Salir" << endl;
+            cout << "Opciones: \n P: modo puntos \n L: modo Líneas \n S: modo Solido \n A: modo Ajedrez \n M: modo visualizacion simultanea \n I; Iluminacion \n T: Textura \n Q: Salir" << endl;
                 
          break;
          //VARIAR ÁNGULO DE LAS LUCES
