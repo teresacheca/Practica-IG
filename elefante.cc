@@ -32,6 +32,7 @@ Elefante::Elefante()
 
    cabeza= new Cabeza();
    cuerpo = new Cuerpo();
+   fondo = new Fondo();
 
 
 
@@ -62,6 +63,9 @@ void Elefante::draw(){
          cuerpo->draw();
       glPopMatrix();
 
+      glPushMatrix();
+         fondo->draw();
+      glPopMatrix();
 
    glPopMatrix();
    

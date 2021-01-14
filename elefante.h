@@ -21,6 +21,7 @@
 #include "cabeza.h"
 #include "cuerpo.h"
 #include "material.h"
+#include "fondo.h"
 
 // *****************************************************************************
 //
@@ -48,6 +49,7 @@ class Elefante: public Malla3D
     
       Cabeza * cabeza;
       Cuerpo * cuerpo;
+      Fondo * fondo;
 
     /*  Malla3D dibujaCuerno();
       ObjRevolucion * esfera;
