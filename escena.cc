@@ -100,7 +100,13 @@ Escena::Escena()
 
    automatico = auto_cabeza = auto_trompa = auto_trompita = 1;
 
-   
+   //Práctica 6
+   moverse=false;
+   x = y = 0;
+   camaraActiva = 0;
+   camarasActivadas = false;
+   objetoEncontrado = false;
+   iniciarCamaras();
 }
 
 //**************************************************************************
@@ -165,6 +171,14 @@ void Escena::inicializaLuces(){
    for(int i=0; i<7; i++){
       lucesPosicionales_activadas.push_back(false);
    }
+}
+
+/*-----------------------------------PRÁCTICA 6: INICIALIZAR CAMARAS-------------------------------*/
+void Escena::iniciarCamaras(){
+   camaras.resize(3);
+   camaras[0] = new Camara({0.0, 100.0, 0.0}, {0.0, 0.0, 0.0}, {-1.0, -1.0, 0.0}, PERSPECTIVA, 1.0, -1.0, 1.0, 450.0, 1.0,1.0);
+   camaras[1] = new Camara({0.0, -100.0, 200.0}, {0.0, 0.0, 0.0}, {1.0, 1.0, 0.0}, PERSPECTIVA, -1.0, 1.0, 1.0, 450.0, 1.0,1.0);
+   camaras[2] = new Camara({0.0, 100.0, -200.0}, {0.0, 0.0, 0.0}, {-1.0, 1.0, 0.0}, ORTOGONAL, -1.0, 1.0, 0.5, 450.0, 1.0,1.0);
 }
 
 // **************************************************************************
@@ -391,6 +405,20 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          cout << "Opciones: \n 1: modo Inmediato \n 2: modo Diferido \n Q: Salir" << endl;
          modoMenu=SELDIBUJADO;
       break ;
+      case 'C' :
+         // ESTAMOS EN MODO SELECCION DE DIBUJADO
+         if(!camarasActivadas){
+            cout << "Seleccion de camaras\n";
+            cout << "Opciones: \n 1: perspectiva 1 \n 2: perspectiva 2 \n 3: Ortogonal \n Q: Salir" << endl;
+            camarasActivadas = true;
+            modoMenu=CAMARAS;
+         }else{
+            cout << "Desactivar camaras" << endl;
+            camarasActivadas=false;
+            modoMenu = NADA;
+         }
+         
+      break ;
          // COMPLETAR con los diferentes opciones de teclado
             
       }
@@ -400,7 +428,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
       case 'Q' :
          if (modoMenu!=NADA){
             cout << "Opciones: " << endl;
-            cout << " O: seleccion de objeto \n V: seleccion de modo de visualizacion \n D: seleccion de modo de dibujado \n";
+            cout << " O: seleccion de objeto \n V: seleccion de modo de visualizacion \n D: seleccion de modo de dibujado \n C: seleccion de camaras \n";
             modoMenu=NADA;   
          }else {
             salir=true ;
@@ -493,8 +521,8 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          case 'Q':
             if (modoMenu!=NADA){
                cout << "Opciones: " << endl;
-               cout << " O: seleccion de objeto \n V: seleccion de modo de visualizacion \n D: seleccion de modo de dibujado \n";
-               modoMenu=NADA;  
+               cout << " O: seleccion de objeto \n V: seleccion de modo de visualizacion \n D: seleccion de modo de dibujado \n C: seleccion de camaras \n";
+               modoMenu=NADA;    
             }else {
                salir=true ;
             }
@@ -558,8 +586,8 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
           case 'Q':
          if (modoMenu!=NADA){
             cout << "Opciones: " << endl;
-            cout << " O: seleccion de objeto \n V: seleccion de modo de visualizacion \n D: seleccion de modo de dibujado \n";
-            modoMenu=NADA;  
+            cout << " O: seleccion de objeto \n V: seleccion de modo de visualizacion \n D: seleccion de modo de dibujado \n C: seleccion de camaras \n";
+            modoMenu=NADA;    
          }else {
             salir=true ;
          }
@@ -843,8 +871,8 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
       switch(toupper(tecla)){
          case 'Q':
                if(modoMenu!=NADA){
-                    cout << "Mueve al elefante " << endl;
-                   cout << "A: Mover cabeza en X \n B: Mover cabeza en Y \n C: Mover trompa en Z \n D: Mover trompa en X \n E: Mover trompita en X \n F: Mover trompita en Z \n G: Mover Patas \n H: Agachar \n I: Automatico  \n  Q:Salir \n ";
+                  cout << "Mueve al elefante " << endl;
+                  cout << "A: Mover cabeza en X \n B: Mover cabeza en Y \n C: Mover trompa en Z \n D: Mover trompa en X \n E: Mover trompita en X \n F: Mover trompita en Z \n G: Mover Patas \n H: Agachar \n I: Automatico  \n  Q:Salir \n ";
                   modoMenu=ELEFANTE;  
                }else{
                   salir=true;
@@ -891,6 +919,49 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          case '-':
             variarGiroAutomatico(mover, false);
          break;
+
+      }
+   } else if(modoMenu == CAMARAS){
+    /*-------------------------MENÚ VARIAR ÁNGULO DE GIRO------------------------------------------------*/
+      switch(toupper(tecla)){
+         case 'Q':
+               if(modoMenu!=NADA){
+                  cout << "Opciones: " << endl;
+                  cout << " O: seleccion de objeto \n V: seleccion de modo de visualizacion \n D: seleccion de modo de dibujado \n C: seleccion de camaras \n";
+                  modoMenu=NADA;  
+               }else{
+                  salir=true;
+               }
+         break;
+         case '1':
+            if(camarasActivadas){
+               cout << "Camara 1 activada" << endl;
+               camaraActiva=0;
+            }else{
+               cout << "Camaras desactivadas " << endl;
+            }
+         break;
+
+         case '2':
+            if(camarasActivadas){
+               cout << "camara 2 activiada " << endl;
+               camaraActiva = 1;
+            }else{
+               cout << "Camaras desactivadas " << endl;
+            }
+            
+         break;
+         case '3':
+         if(camarasActivadas){
+            cout << "camara 3 activada " << endl;
+            camaraActiva=2;
+         }else{
+            cout << "Camaras desactivadas " << endl;
+         }
+            
+         break;
+       
+         
 
       }
    }
@@ -1060,6 +1131,64 @@ void Escena::habilitar_textura(){
    }
 }
 
+
+/*-------------------------------------------CÁMARA---------------------------------------*/
+
+
+void Escena::setMoverse(bool m){
+   moverse=m;
+}
+bool Escena::getMoverse(){
+   return moverse;
+}
+void Escena::ratonMovido(int x, int y){
+   if(moverse){
+      int x2 = x - this->x;
+      int y2 = y - this->y;
+      moverEscena(x2, y2);
+      this->x = x;
+      this->y = y;
+   }
+}
+void Escena::moverEscena(int x, int y){
+   camaras[camaraActiva]->rotarXFirstPerson(x);
+   camaras[camaraActiva]->rotarYFirstPerson(y);
+}
+
+void Escena::dibujarSeleccion(){
+
+}
+
+void Escena::zoom(bool z){
+   if(camarasActivadas){
+      if(z){
+         camaras[camaraActiva]->zoom(1.2);
+      }else{
+         camaras[camaraActiva]->zoom(0.5);
+      }
+   }
+   
+}
+
+void Escena::objetoSeleccionado(int x, int y){
+   cout << "Entra " << endl;
+   glReadPixels(x, y, 1, 1, GL_RGB, GL_FLOAT, (void *) pixel);
+   printf("%f %f %f \n", pixel[0], pixel[1], pixel[2]);
+   if(pixel[0] < 1.0 || pixel[1] < 1.0 || pixel[2]<1.0){
+      objetoEncontrado = true;
+      cout << "Objeto encontrado" << endl;
+   }else{
+      cout << "Objeto NO seleccionado";
+      objetoEncontrado=false;
+   }
+   if(objetoEncontrado){
+      camaras[camaraActiva]->objetoEncontrado(true, x, y);
+   }else{
+      camaras[camaraActiva]->objetoEncontrado(false, x, y);
+   }
+ 
+
+}
 /*-------------------------------------TECLAS ESPECIALES---------------------------------------------*/
 
 //**************************************************************************
@@ -1069,22 +1198,65 @@ void Escena::teclaEspecial( int Tecla1, int x, int y )
    switch ( Tecla1 )
    {
 	   case GLUT_KEY_LEFT:
-         Observer_angle_y-- ;
-         break;
+        if(camarasActivadas){
+				camaras[camaraActiva]->rotarYFirstPerson(-3.0);
+				
+		 	}
+		 	else{
+				Observer_angle_y-- ;
+		 	}
+      break;
 	   case GLUT_KEY_RIGHT:
-         Observer_angle_y++ ;
-         break;
+         if(camarasActivadas){
+				camaras[camaraActiva]->rotarYFirstPerson(3.0);
+				
+		 	}
+		 	else{
+				Observer_angle_y++ ;
+		 	}
+         
+      break;
 	   case GLUT_KEY_UP:
-         Observer_angle_x-- ;
-         break;
+         
+         if(camarasActivadas){
+				camaras[camaraActiva]->rotarXFirstPerson(3.0);
+				
+		 	}
+		 	else{
+				Observer_angle_x-- ;
+		 	}
+         
+      break;
 	   case GLUT_KEY_DOWN:
-         Observer_angle_x++ ;
-         break;
+         if(camarasActivadas){
+				camaras[camaraActiva]->rotarXFirstPerson(-3.0);
+				
+		 	}
+		 	else{
+				Observer_angle_x++ ;
+		 	}
+         
+      break;
 	   case GLUT_KEY_PAGE_UP:
-         Observer_distance *=1.2 ;
+      cout << "Camaras " << camarasActivadas << endl;
+         if(camarasActivadas){
+				camaras[camaraActiva]->zoom(1.2);
+		 	}
+		 	else{
+				 Observer_distance *=1.2 ;
+		 	}
+        
          break;
 	   case GLUT_KEY_PAGE_DOWN:
-         Observer_distance /= 1.2 ;
+      cout << "Camaras " << camarasActivadas << endl;
+         if(camarasActivadas){
+				camaras[camaraActiva]->zoom(0.5);
+				
+		 	}
+		 	else{
+				Observer_distance /= 1.2 ;
+		 	}
+         
          break;
 	}
 
@@ -1105,8 +1277,12 @@ void Escena::change_projection( const float ratio_xy )
    glMatrixMode( GL_PROJECTION );
    glLoadIdentity();
    const float wx = float(Height)*ratio_xy ;
-   glFrustum( -wx, wx, -Height, Height, Front_plane, Back_plane );
-}
+   if(!camarasActivadas){
+       glFrustum( -wx, wx, -Height, Height, Front_plane, Back_plane );
+   }else{
+      camaras[camaraActiva]->setProyeccion();
+   }
+  }
 //**************************************************************************
 // Funcion que se invoca cuando cambia el tamaño de la ventana
 //***************************************************************************
@@ -1128,7 +1304,12 @@ void Escena::change_observer()
    // posicion del observador
    glMatrixMode(GL_MODELVIEW);
    glLoadIdentity();
-   glTranslatef( 0.0, 0.0, -Observer_distance );
-   glRotatef( Observer_angle_y, 0.0 ,1.0, 0.0 );
-   glRotatef( Observer_angle_x, 1.0, 0.0, 0.0 );
+   if(!camarasActivadas){
+      glTranslatef( 0.0, 0.0, -Observer_distance );
+      glRotatef( Observer_angle_y, 0.0 ,1.0, 0.0 );
+      glRotatef( Observer_angle_x, 1.0, 0.0, 0.0 );
+   }else{
+      camaras[camaraActiva]->setObserver();
+   }
+   
 }

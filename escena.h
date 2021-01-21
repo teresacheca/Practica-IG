@@ -15,10 +15,11 @@
 #include "luzPosicional.h"
 #include "semiesfera.h"
 #include "elefante.h"
+#include "camara.h"
 
 using namespace std;
 
-typedef enum {NADA, SELOBJETO,SELVISUALIZACION,SELDIBUJADO, SIMULTANEOS, TAPAS, ILUMINACION, ELEFANTE, MOVER, GIRAR, AUTOMATICO, PARTE} menu;
+typedef enum {NADA, SELOBJETO,SELVISUALIZACION,SELDIBUJADO, SIMULTANEOS, TAPAS, ILUMINACION, ELEFANTE, MOVER, GIRAR, AUTOMATICO, PARTE, CAMARAS} menu;
 class Escena
 {
 
@@ -100,6 +101,15 @@ class Escena
          Textura * textura = nullptr;
          bool text;
          void habilitar_textura();
+
+         //Practica 6: CÁMARA
+         bool moverse;
+         int x, y;
+         std::vector<Camara *> camaras;
+         int camaraActiva;
+         bool camarasActivadas;
+         GLfloat pixel[3];
+         bool objetoEncontrado;
          
    public:
 
@@ -135,6 +145,17 @@ class Escena
       void moverLuces(bool mover);
 
       void variarGiroAutomatico(char l, bool mas);
+
+      //Practica 6: CÁMARA
+      void setMoverse(bool m);
+      bool getMoverse();
+      void ratonMovido(int x, int y);
+      void moverEscena(int x, int y);
+      void dibujarSeleccion();
+      void iniciarCamaras();
+      void zoom(bool z);
+      void objetoSeleccionado(int x, int t);
+
 	
 };
 #endif

@@ -10,6 +10,8 @@
 #include "aux.h" // includes de OpenGL, windows, y librería std de C++
 #include "escena.h"
 #include <unistd.h>
+#include <GL/freeglut.h>
+#include <GL/glut.h>
 // variable que contiene un puntero a la escena
 Escena *escena = nullptr ;
 
@@ -96,6 +98,50 @@ void funcion_idle(){
       escena->animarModeloJerarquico();
    glutPostRedisplay();
 }
+
+/*-------------------------------MOVIMIENTO DEL RATON --------------------------------*/
+
+void ratonMovido(int x, int y){
+   if(escena->getMoverse()){
+      cout << "X " << x << ", Y " << y << endl; 
+      escena->ratonMovido(x, y);
+   }
+}
+
+
+void clickRaton(int boton, int estado, int x, int y){
+    if(boton == GLUT_LEFT_BUTTON){
+      if(estado == GLUT_DOWN){
+       //  cout << "X " << x << ", Y " << y << endl; 
+         escena->setMoverse(true);
+         ratonMovido(x, y);
+         
+      }else{
+         escena->setMoverse(false);
+      }
+   }else if(boton == GLUT_RIGHT_BUTTON){
+         if(estado == GLUT_DOWN){
+            cout << "Objeto seleccionado "  << endl;
+            escena->objetoSeleccionado(x, y);
+         }
+      }
+   glutPostRedisplay();  
+}
+
+void mouseWheel(int button, int dir, int x, int y){
+   cout << "dir " << dir << endl;
+      if(dir>0){
+         escena->zoom(true);
+         cout << "dir " << dir << endl;
+      }else{
+         escena->zoom(false);
+         cout << "dir " << dir << endl;
+      }
+  
+}
+
+
+
 //***************************************************************************
 // Programa principal
 //
@@ -140,7 +186,7 @@ int main( int argc, char **argv )
    // asignación de la funcion llamada "cambiar_tamanio_ventana" al evento correspondiente
    glutReshapeFunc( change_window_size );
    cout << "Opciones: " << endl;
-   cout << " O: seleccion de objeto \n V: seleccion de modo de visualizacion \n D: seleccion de modo de dibujado \n";
+   cout << " O: seleccion de objeto \n V: seleccion de modo de visualizacion \n D: seleccion de modo de dibujado \n C: seleccion de camaras \n";
    
    // asignación de la funcion llamada "tecla_normal" al evento correspondiente
    glutKeyboardFunc( normal_keys );
@@ -166,6 +212,9 @@ int main( int argc, char **argv )
    // funcion de inicialización de la escena (necesita que esté la ventana creada)
    escena->inicializar( UI_window_width, UI_window_height );
 
+   glutMouseFunc(clickRaton);
+   glutMotionFunc(ratonMovido);
+   glutMouseWheelFunc(mouseWheel);
 
 
    // ejecutar del bucle de eventos
