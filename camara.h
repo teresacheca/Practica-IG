@@ -33,6 +33,8 @@ class Camara
 		TipoCamara tipo;
 		float left, right, near, far;
 		bool objeto;
+		bool activarModoExaminar;
+		float aspect;
 
 	public:
 		Camara(Tupla3f eye, Tupla3f at, Tupla3f up,  TipoCamara tipo, float bottom, float top, float left, float right, float near, float far);
@@ -51,6 +53,9 @@ class Camara
 		Tupla3f getAt();
 
 		void objetoEncontrado(bool encontrado, int x, int y);
+
+		bool getModoExaminar();
+		void setAspect(const float aspect);
 } ;
 
 

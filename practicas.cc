@@ -121,7 +121,6 @@ void clickRaton(int boton, int estado, int x, int y){
       }
    }else if(boton == GLUT_RIGHT_BUTTON){
          if(estado == GLUT_DOWN){
-            cout << "Objeto seleccionado "  << endl;
             escena->objetoSeleccionado(x, y);
          }
       }

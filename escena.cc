@@ -1151,8 +1151,14 @@ void Escena::ratonMovido(int x, int y){
    }
 }
 void Escena::moverEscena(int x, int y){
-   camaras[camaraActiva]->rotarXFirstPerson(x);
-   camaras[camaraActiva]->rotarYFirstPerson(y);
+   if(camaras[camaraActiva]->getModoExaminar()){
+      camaras[camaraActiva]->rotarXExaminar(x);
+      camaras[camaraActiva]->rotarYExaminar(y);
+   }else{
+      camaras[camaraActiva]->rotarXFirstPerson(x);
+      camaras[camaraActiva]->rotarYFirstPerson(y);
+   }
+   
 }
 
 void Escena::dibujarSeleccion(){
@@ -1178,7 +1184,7 @@ void Escena::objetoSeleccionado(int x, int y){
       objetoEncontrado = true;
       cout << "Objeto encontrado" << endl;
    }else{
-      cout << "Objeto NO seleccionado";
+      cout << "Objeto NO seleccionado" << endl;
       objetoEncontrado=false;
    }
    if(objetoEncontrado){
@@ -1278,8 +1284,9 @@ void Escena::change_projection( const float ratio_xy )
    glLoadIdentity();
    const float wx = float(Height)*ratio_xy ;
    if(!camarasActivadas){
-       glFrustum( -wx, wx, -Height, Height, Front_plane, Back_plane );
+       glFrustum( -wx/ratio_xy, wx/ratio_xy, -Height*ratio_xy, Height*ratio_xy, Front_plane, Back_plane );
    }else{
+      camaras[camaraActiva]->setAspect(ratio_xy);
       camaras[camaraActiva]->setProyeccion();
    }
   }
@@ -1293,6 +1300,7 @@ void Escena::redimensionar( int newWidth, int newHeight )
    Height = newHeight/10;
    change_projection( float(newHeight)/float(newWidth) );
    glViewport( 0, 0, newWidth, newHeight );
+   
 }
 
 //**************************************************************************

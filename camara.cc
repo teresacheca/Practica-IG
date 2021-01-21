@@ -11,7 +11,8 @@ Camara::Camara(Tupla3f eye, Tupla3f at, Tupla3f up,  TipoCamara tipo, float bott
    this->top = top;
    factor=1;
    objeto=false;
-   glMatrixMode(GL_MODELVIEW);
+   activarModoExaminar=false;
+   aspect=1;
 }
 
 void Camara::rotarXExaminar(float angle){
@@ -107,7 +108,7 @@ void Camara::setProyeccion(){
    {
       
       case PERSPECTIVA:
-         glFrustum(left*factor, right*factor, bottom*factor, top*factor, near, far);
+         glFrustum(left/aspect, right/aspect, bottom/aspect, top/aspect, near, far);
       break;
       case ORTOGONAL:
          glOrtho(left, right, bottom, top, near, far);
@@ -124,7 +125,14 @@ Tupla3f Camara::getAt(){
 
 void Camara::objetoEncontrado(bool encontrado, int x, int y){
    objeto = encontrado;
-  
-   
+   //activarModoExaminar = encontrado;
+}
 
+bool Camara::getModoExaminar(){
+   return activarModoExaminar;
+}
+
+
+void Camara::setAspect(const float aspect){
+   this->aspect = aspect;
 }
